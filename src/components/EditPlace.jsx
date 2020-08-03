@@ -37,7 +37,7 @@ export class EditPlace extends Component {
         axios.put('http://localhost:5000/api/places/' + params.id, this.state)
         .then(response => {
             console.log(response)
-            //Poner un redirect a List o a Details
+            this.props.history.push("/list")
         }) 
         .catch((err)=>{
             console.log(err)
