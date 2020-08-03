@@ -9,9 +9,9 @@ class Highlights extends Component {
         }
     }
 
-    async fetchData () {
-        const response = await axios.get("http://localhost:5000/api/places/highlights?quantity=3")
-        console.log(response.data)
+    fetchData = async () => {
+        const response = await axios.get("http://localhost:5000/api/places/highlights")
+        console.log("Highlights: ",response.data)
         this.setState({
             places: response.data
         })
