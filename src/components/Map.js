@@ -1,14 +1,22 @@
 import React, { Component } from 'react'
 import GoogleMapReact from 'google-map-react'
-import axios from 'axios'
 
 export class Map extends Component {
     constructor(props) {
         super(props)
         this.state={
-            lat: this.props.latitude,
-            lng: this.props.longitude,
+            lat: this.props.place.loc.coordinates[0],
+            lng: this.props.place.loc.coordinates[1],
+            place: this.props.place,
+            showMap: false
         }
+    }
+
+    toggleMap = () => {
+        this.setState(state => ({
+            ...state,
+            showMap: !this.state.showMap
+        }))
     }
 
     render() {
@@ -43,24 +51,31 @@ export class Map extends Component {
             let marker = new maps.Marker({
                 position: position,
                 map,
-                title: this.state.direccion})
+                title: this.state.place.name})
         }
 
-
-
         return (
-            <div className="mapa" style={{height:"200px",width:"300px"}}>
-                <GoogleMapReact 
-                    key={this.state.direccion}
-                    bootstrapURLKeys={ { key: 'AIzaSyC5R2OYlhvGRMmpofdkJ0jL60Tsa7dtZUY'} }
-                    defaultCenter={center}
-                    defaultZoom={zoom}
-                    options={getMapOptions}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
-
-                />
-            </div>
+            <div>
+                { this.state.showMap ?
+                    <div className="mapa" style={{height:"200px",width:"300px"}}>
+                        <GoogleMapReact 
+                            key={this.state.place.name}
+                            bootstrapURLKeys={ { key: 'AIzaSyC5R2OYlhvGRMmpofdkJ0jL60Tsa7dtZUY'} }
+                            defaultCenter={center}
+                            defaultZoom={zoom}
+                            options={getMapOptions}
+                            yesIWantToUseGoogleMapApiInternals
+                            onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+                        />
+                    </div> :
+                    <img alt="place" style={{width:"300px"}} src={this.state.place.imageUrl} />
+                }
+                <div className="btn btn-primary" onClick={this.toggleMap}>
+                    { this.state.showMap ? "Back" :
+                    "Check on map"
+                    }
+                </div>   
+            </div>    
         )
     }
 }

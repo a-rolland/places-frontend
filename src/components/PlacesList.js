@@ -7,7 +7,6 @@ class PlacesList extends Component {
         super(props)
         this.state = {
             places: [],
-            showMap: false
         }
     }
 
@@ -26,13 +25,6 @@ class PlacesList extends Component {
         })
         .catch(err => console.log("Error: ", err))
     }
-
-    toggleMap = () => {
-        this.setState(state => ({
-            ...state,
-            showMap: !this.state.showMap
-        }))
-    }
     
     render() {
 
@@ -41,18 +33,7 @@ class PlacesList extends Component {
                 <li className="list-group-item" key={place.name}>
                     <div className="row">
                         <div className="m-3">
-                            { this.state.showMap ?
-                                <Map latitude={place.loc.coordinates[0]} longitude={place.loc.coordinates[1]} /> :
-                                <img alt="place" style={{width:"300px"}} src={place.imageUrl} />
-                            }
-                            
-                            <div className="btn btn-primary" onClick={this.toggleMap}>
-                                { this.state.showMap ? "Back" :
-                                "Check on map"
-                                }
-                            </div>
-                            
-                            
+                            <Map place={place} /> 
                         </div>
                         <div className="m-3">
                             <h2>{place.name}</h2>

@@ -12,22 +12,24 @@ export default class AddPlace extends Component {
           "",
         loc: {
           type: 'Point',
-          coordinates: [22.5330804, 23.3972939],
+          coordinates: [44.5330804, 2.3972939]
         }
       },
       archive: null  
     };
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const uploadData = new FormData();
     uploadData.append("imageUrl", this.state.archive);
     uploadData.append("name", this.state.newPlace.name);
     uploadData.append("description", this.state.newPlace.description);
-    uploadData.append("loc", this.state.newPlace.loc);
+    uploadData.append("type", this.state.newPlace.loc.type);
+    uploadData.append("lat", this.state.newPlace.loc.coordinates[0]);
+    uploadData.append("lng", this.state.newPlace.loc.coordinates[1]);
     axios.post("http://localhost:5000/api/places/upload", uploadData)
     .then((response) => {
-      console.log("File upload: ",response.data)
       this.props.history.push("/list")
     });
   };
