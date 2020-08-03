@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Map from './Map'
+import { Link } from 'react-router-dom'
 
 class PlacesList extends Component {
     constructor(props) {
@@ -30,13 +31,13 @@ class PlacesList extends Component {
 
         const listPlaces = this.state.places.map(place => {
             return (
-                <li className="list-group-item" key={place.name}>
+                <li className="list-group-item" key={place._id}>
                     <div className="row">
                         <div className="m-3">
                             <Map place={place} /> 
                         </div>
                         <div className="m-3">
-                            <h2>{place.name}</h2>
+                            <Link to={{pathname: `/place/${place._id}`, state: place}}>{place.name}</Link>
                             <p>{place.description}</p>
                         </div>
                     </div>                    

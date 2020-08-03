@@ -32,8 +32,9 @@ export class Admin extends Component {
         const placesList = this.state.places.map(place => (
             <div key={place._id}>
                 <h4>{place.name} - {place.description}</h4>
-                <Link className='btn btn-primary' to={'/edit/' + place._id}>Edit</Link>
-                <button className='btn btn-danger' onClick={(event) => this.handleDelete(event, place._id)}>Delete place</button>
+                <button className='btn btn-primary m-3'><Link className="text-white" to={'/edit/' + place._id}>Edit</Link></button>
+                <button className='btn btn-danger m-3' onClick={(event) => this.handleDelete(event, place._id)}>Delete place</button>
+                {/* <span>Highlight</span> */}
             </div>
         ))
         return (

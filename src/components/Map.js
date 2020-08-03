@@ -5,6 +5,7 @@ export class Map extends Component {
     constructor(props) {
         super(props)
         this.state={
+            name: this.props.place.name,
             lat: this.props.place.loc.coordinates[0],
             lng: this.props.place.loc.coordinates[1],
             place: this.props.place,
@@ -56,10 +57,10 @@ export class Map extends Component {
 
         return (
             <div>
-                { this.state.showMap ?
-                    <div className="mapa" style={{height:"200px",width:"300px"}}>
+                { this.state.showMap || this.props.blockMap ?
+                    <div className="mapa mx-auto" style={this.props.detailsStyle || {height:"200px",width:"300px"}}>
                         <GoogleMapReact 
-                            key={this.state.place.name}
+                            key={this.state.name}
                             bootstrapURLKeys={ { key: 'AIzaSyC5R2OYlhvGRMmpofdkJ0jL60Tsa7dtZUY'} }
                             defaultCenter={center}
                             defaultZoom={zoom}
@@ -68,13 +69,16 @@ export class Map extends Component {
                             onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
                         />
                     </div> :
-                    <img alt="place" style={{width:"300px"}} src={this.state.place.imageUrl} />
-                }
-                <div className="btn btn-primary" onClick={this.toggleMap}>
-                    { this.state.showMap ? "Back" :
-                    "Check on map"
+                    <div>
+                        <img alt="place" style={{width:"300px"}} src={this.state.place.imageUrl} />
+                    </div>
+                }{ !this.props.blockMap && 
+                    <div className="btn btn-primary mt-3 mb-3" onClick={this.toggleMap}>
+                        { this.state.showMap ? "Back" :
+                        "Check on map"
+                        }
+                    </div>   
                     }
-                </div>   
             </div>    
         )
     }

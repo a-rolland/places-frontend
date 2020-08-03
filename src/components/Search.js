@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
+import Map from "./Map";
 export default class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newName: "",
       search: "",
       candidates: [],
     };
@@ -22,6 +24,15 @@ export default class Search extends Component {
         this.setState({
           candidates: resp.data.candidates,
         });
+        axios.get(`http://localhost:5000/api/places/search?miles=1000000&lat=40&lng=2`)
+        .then(response => {
+          console.log("Places near : ",response.data)
+          this.setState(state => ({
+            ...state,
+            newName: this.state.search
+          }))
+        })
+        .catch(err => console.log(err))
       });
   };
   selectPlace = (position) => {
@@ -44,6 +55,17 @@ export default class Search extends Component {
     if (candidates.length > 0) {
       header = <h3>Results (select one)</h3>;
     }
+
+    // const placeToLocate = {
+    //     name: this.state.search,
+    //     loc:{
+    //       coordinates: [
+    //         this.state.candidates[0].geometry.location.lat,
+    //         this.state.candidates[0].geometry.location.lng
+    //       ]
+    //     }
+    // }
+
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -61,6 +83,22 @@ export default class Search extends Component {
           </Button>
         </Form>
         {candidates}
+        { this.state.candidates.length>0 && 
+          <Map 
+            key={this.state.newName}
+            place={{
+              name: this.state.search,
+              loc:{
+                coordinates: [
+                  this.state.candidates[0].geometry.location.lat,
+                  this.state.candidates[0].geometry.location.lng
+                ]
+              }
+          }}
+            blockMap="true"
+            detailsStyle={{height:"400px",width:"100%"}} 
+          />
+        }
       </div>
     );
   }

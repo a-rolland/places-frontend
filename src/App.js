@@ -6,10 +6,10 @@ import EditPlace from './components/EditPlace';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import PlacesList from './components/PlacesList';
 import CustomNavbar from './components/Navbar';
-
 import Search from './components/Search';
 import Admin from './components/Admin';
 import AddPlace from './components/AddPlace';
+import PlaceDetails from './components/PlaceDetails';
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
         <Route exact path="/search" render={(props) => <Search {...props} />} />
         <Route exact path="/admin" render={(props) => <Admin {...props} />} />
         <Route exact path="/addplace" render={(props) => <AddPlace {...props} />} />
+        <Route exact path="/place/:id" render={(props) => <PlaceDetails {...props} />} />
       </Switch>
     </div>
   );
